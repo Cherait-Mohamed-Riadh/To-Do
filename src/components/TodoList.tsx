@@ -36,6 +36,7 @@ const categoryOptions: { value: TaskCategory; label: string }[] = [
 ];
 
 function TodoList({ tasks, onCreate, onUpdate, onRemove, selectedDate, globalQuery }: TodoListProps) {
+	const [showFiltersMobile, setShowFiltersMobile] = useState(false);
 	const [view, setView] = useState<"list" | "board" | "table">("list");
 	const [draftTitle, setDraftTitle] = useState("");
 	const [draftDate, setDraftDate] = useState<string>("");
@@ -163,47 +164,64 @@ function TodoList({ tasks, onCreate, onUpdate, onRemove, selectedDate, globalQue
 
 	return (
 		<div className="card p-4 animate-fade-in">
-			<div className="flex items-center justify-between mb-3">
-				<h3 className="section-title">Tasks</h3>
-				<div className="flex items-center gap-3">
-					<div className="rounded-lg overflow-hidden border border-sand-200 dark:border-ink-600">
-						<button className={`px-3 py-2 text-sm ${view === "list" ? "bg-brand-600 text-white" : "bg-white dark:bg-ink-700 text-ink-700 dark:text-ink-50"}`} onClick={() => setView("list")} aria-pressed={view === "list"}>List</button>
-						<button className={`px-3 py-2 text-sm ${view === "board" ? "bg-brand-600 text-white" : "bg-white dark:bg-ink-700 text-ink-700 dark:text-ink-50"}`} onClick={() => setView("board")} aria-pressed={view === "board"}>Board</button>
-						<button className={`px-3 py-2 text-sm ${view === "table" ? "bg-brand-600 text-white" : "bg-white dark:bg-ink-700 text-ink-700 dark:text-ink-50"}`} onClick={() => setView("table")} aria-pressed={view === "table"}>Table</button>
+			<div className="mb-3">
+				<div className="flex items-center justify-between">
+					<h3 className="section-title">Tasks</h3>
+					{/* Desktop controls */}
+					<div className="hidden md:flex items-center gap-3">
+						<div className="rounded-lg overflow-hidden border border-sand-200 dark:border-ink-600">
+							<button className={`px-3 py-2 text-sm ${view === "list" ? "bg-brand-600 text-white" : "bg-white dark:bg-ink-700 text-ink-700 dark:text-ink-50"}`} onClick={() => setView("list")} aria-pressed={view === "list"}>List</button>
+							<button className={`px-3 py-2 text-sm ${view === "board" ? "bg-brand-600 text-white" : "bg-white dark:bg-ink-700 text-ink-700 dark:text-ink-50"}`} onClick={() => setView("board")} aria-pressed={view === "board"}>Board</button>
+							<button className={`px-3 py-2 text-sm ${view === "table" ? "bg-brand-600 text-white" : "bg-white dark:bg-ink-700 text-ink-700 dark:text-ink-50"}`} onClick={() => setView("table")} aria-pressed={view === "table"}>Table</button>
+						</div>
+						<label className="flex items-center gap-2 text-xs text-ink-500 dark:text-ink-300">
+							<input type="checkbox" checked={manualSort} onChange={e => setManualSort(e.target.checked)} />
+							Manual sort
+						</label>
+						<div className="text-sm text-ink-500 dark:text-ink-200 tabular-nums">{filtered.length} items</div>
 					</div>
-					<label className="flex items-center gap-2 text-xs text-ink-500 dark:text-ink-300">
-						<input type="checkbox" checked={manualSort} onChange={e => setManualSort(e.target.checked)} />
-						Manual sort
-					</label>
-					<div className="text-sm text-ink-500 dark:text-ink-200 tabular-nums">{filtered.length} items</div>
+				</div>
+				{/* Mobile controls */}
+				<div className="mt-2 flex items-center gap-2 md:hidden">
+					<select aria-label="View" className="input w-[130px]" value={view} onChange={e => setView(e.target.value as any)}>
+						<option value="list">List</option>
+						<option value="board">Board</option>
+						<option value="table">Table</option>
+					</select>
+					<button type="button" className="btn-outline flex-1" onClick={() => setShowFiltersMobile(v => !v)} aria-expanded={showFiltersMobile} aria-controls="task-filters">
+						Filters
+					</button>
+					<div className="text-xs text-ink-500 dark:text-ink-300 tabular-nums">{filtered.length} items</div>
 				</div>
 			</div>
 
 			{/* Filters */}
-			<div className="flex flex-wrap gap-2 mb-3">
-				<input
-					className="input flex-1 min-w-[220px]"
-					placeholder="Search by title, tag, or category…"
-					value={query}
-					onChange={e => setQuery(e.target.value)}
-					aria-label="Search tasks"
-				/>
-				<select className="input w-[150px]" value={statusFilter} onChange={e => setStatusFilter(e.target.value as any)} aria-label="Filter status">
-					<option value="all">All status</option>
-					<option value="todo">Todo</option>
-					<option value="in-progress">In progress</option>
-					<option value="done">Done</option>
-				</select>
-				<select className="input w-[160px]" value={categoryFilter} onChange={e => setCategoryFilter(e.target.value as any)} aria-label="Filter category">
-					<option value="all">All categories</option>
-					{categoryOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-				</select>
-				<select className="input w-[150px]" value={priorityFilter} onChange={e => setPriorityFilter(e.target.value as any)} aria-label="Filter priority">
-					<option value="all">All priorities</option>
-					<option value="high">High</option>
-					<option value="medium">Medium</option>
-					<option value="low">Low</option>
-				</select>
+			<div id="task-filters" className={clsx("mb-3", showFiltersMobile ? "block" : "hidden md:block")}> 
+				<div className="grid grid-cols-1 md:flex md:flex-wrap gap-2">
+					<input
+						className="input w-full md:flex-1 min-w-[220px]"
+						placeholder="Search by title, tag, or category…"
+						value={query}
+						onChange={e => setQuery(e.target.value)}
+						aria-label="Search tasks"
+					/>
+					<select className="input w-full md:w-[150px]" value={statusFilter} onChange={e => setStatusFilter(e.target.value as any)} aria-label="Filter status">
+						<option value="all">All status</option>
+						<option value="todo">Todo</option>
+						<option value="in-progress">In progress</option>
+						<option value="done">Done</option>
+					</select>
+					<select className="input w-full md:w-[160px]" value={categoryFilter} onChange={e => setCategoryFilter(e.target.value as any)} aria-label="Filter category">
+						<option value="all">All categories</option>
+						{categoryOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+					</select>
+					<select className="input w-full md:w-[150px]" value={priorityFilter} onChange={e => setPriorityFilter(e.target.value as any)} aria-label="Filter priority">
+						<option value="all">All priorities</option>
+						<option value="high">High</option>
+						<option value="medium">Medium</option>
+						<option value="low">Low</option>
+					</select>
+				</div>
 			</div>
 
 			{view === "table" ? (
@@ -214,32 +232,32 @@ function TodoList({ tasks, onCreate, onUpdate, onRemove, selectedDate, globalQue
 				</div>
 			) : (
 				<>
-					<form className="flex flex-wrap gap-2" onSubmit={e => { e.preventDefault(); addTask(); }}>
+					<form className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-2" onSubmit={e => { e.preventDefault(); addTask(); }}>
 						<input
-							className="input flex-[1_1_260px] min-w-[220px]"
+							className="input w-full sm:col-span-2 lg:col-span-2"
 							placeholder="Add a task..."
 							value={draftTitle}
 							onChange={e => setDraftTitle(e.target.value)}
 							aria-label="Task title"
 						/>
-						<select className="input flex-[0_1_180px] w-[180px]" value={draftCategory} onChange={e => setDraftCategory(e.target.value as TaskCategory)} aria-label="Category">
-							{categoryOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+						<select className="input w-full lg:col-span-1" value={draftCategory} onChange={e => setDraftCategory(e.target.value as TaskCategory)} aria-label="Category">
+							{categoryOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>) }
 						</select>
-						<input className="input flex-[0_1_160px] w-[160px]" type="date" value={draftDate} onChange={e => setDraftDate(e.target.value)} aria-label="Due date" />
-						<input className="input flex-[0_1_120px] w-[120px]" type="time" value={draftTime} onChange={e => setDraftTime(e.target.value)} aria-label="Due time" />
-						<select className="input flex-[0_1_140px] w-[140px]" value={draftPriority} onChange={e => setDraftPriority(e.target.value as TaskPriority)} aria-label="Priority">
+						<input className="input w-full lg:col-span-1" type="date" value={draftDate} onChange={e => setDraftDate(e.target.value)} aria-label="Due date" />
+						<input className="input w-full lg:col-span-1" type="time" value={draftTime} onChange={e => setDraftTime(e.target.value)} aria-label="Due time" />
+						<select className="input w-full lg:col-span-1" value={draftPriority} onChange={e => setDraftPriority(e.target.value as TaskPriority)} aria-label="Priority">
 							<option value="high">High</option>
 							<option value="medium">Medium</option>
 							<option value="low">Low</option>
 						</select>
 						<input
-							className="input flex-[1_1_220px] min-w-[200px]"
-							placeholder="tags (comma separated)"
+							className="input w-full sm:col-span-2 lg:col-span-2"
+							placeholder="Tags (comma separated)"
 							value={draftTags}
 							onChange={e => setDraftTags(e.target.value)}
 							aria-label="Tags"
 						/>
-						<button className="btn-primary flex-none" type="submit">Add</button>
+						<button className="btn-primary w-full sm:w-auto" type="submit">Add</button>
 					</form>
 
 					<ul className="mt-4 divide-y divide-sand-200 dark:divide-ink-700">
@@ -252,7 +270,7 @@ function TodoList({ tasks, onCreate, onUpdate, onRemove, selectedDate, globalQue
 								onDragOver={e => { if (manualSort) e.preventDefault(); }}
 								onDrop={e => { e.preventDefault(); if (dragFromIdx !== null) { handleReorder(dragFromIdx, idx); setDragFromIdx(null); } }}
 							>
-								<input type="checkbox" className="mt-1 h-5 w-5" checked={t.status === "done"} onChange={() => toggleStatus(t)} />
+								<input type="checkbox" className="mt-1 h-6 w-6 md:h-5 md:w-5" checked={t.status === "done"} onChange={() => toggleStatus(t)} />
 								<div className="flex-1 min-w-0">
 									<div className={clsx("font-medium", t.status === "done" && "line-through text-ink-300")}>{t.title}</div>
 									<div className="text-xs text-ink-400 dark:text-ink-300 flex items-center gap-2 mt-0.5">
@@ -283,12 +301,38 @@ function TodoList({ tasks, onCreate, onUpdate, onRemove, selectedDate, globalQue
 										)}
 								</div>
 							</div>
-							<div className="flex gap-2 flex-wrap">
+							{/* Mobile icon actions */}
+						<div className="mt-2 md:hidden flex items-center gap-2">
+							<button aria-label="Mark in progress" className="icon-btn btn-ghost" onClick={() => onUpdate({ ...t, status: "in-progress" })}>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
+									<path d="M8 5v14l11-7L8 5z" />
+								</svg>
+							</button>
+							<button aria-label="Mark done" className="icon-btn btn-ghost" onClick={() => onUpdate({ ...t, status: "done" })}>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
+									<path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z" />
+								</svg>
+							</button>
+							{t.dueDate && (
+								<a aria-label="Add to Google Calendar" className="icon-btn btn-ghost" href={googleCalendarLink(t)} target="_blank" rel="noopener noreferrer">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
+										<path d="M17 3h4v4h-2V5h-2V3zM7 3h2v2H7V3zm0 4h2v2H7V7zm10 0h2v2h-2V7zM3 7h2v2H3V7zm0 4h2v2H3v-2zm16 0h2v2h-2v-2zM3 15h2v2H3v-2zm6 0h6v2H9v-2zm10 0h2v2h-2v-2zM7 19h10v2H7v-2z" />
+									</svg>
+								</a>
+							)}
+							<button aria-label="Delete task" className="icon-btn btn-ghost text-red-600" onClick={() => onRemove(t.id)}>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
+									<path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1z" />
+								</svg>
+							</button>
+						</div>
+						{/* Desktop action buttons */}
+						<div className="hidden md:flex gap-2 flex-wrap">
 								<button className="btn bg-sand-100 text-ink-700 hover:bg-sand-200 dark:bg-ink-700 dark:text-ink-50 dark:hover:bg-ink-600" onClick={() => onUpdate({ ...t, status: "in-progress" })}>Start</button>
 								<button className="btn bg-ink-900 text-white hover:bg-ink-700" onClick={() => onUpdate({ ...t, status: "done" })}>Done</button>
 								<button className="btn bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-400/20 dark:text-red-200 dark:hover:bg-red-400/30" onClick={() => onRemove(t.id)}>Delete</button>
 								{t.dueDate && (
-									<a className="btn bg-sand-100 text-ink-700 hover:bg-sand-200 dark:bg-ink-700 dark:text-ink-50 dark:hover:bg-ink-600" href={googleCalendarLink(t)} target="_blank" rel="noreferrer">
+									<a className="btn bg-sand-100 text-ink-700 hover:bg-sand-200 dark:bg-ink-700 dark:text-ink-50 dark:hover:bg-ink-600" href={googleCalendarLink(t)} target="_blank" rel="noopener noreferrer">
 										Add to GCal
 										</a>
 									)}

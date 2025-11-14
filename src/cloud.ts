@@ -7,7 +7,16 @@ function ensureClient(): SupabaseClient | null {
 	const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 	const key = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 	if (!url || !key) return null;
-	if (!client) client = createClient(url, key, { auth: { persistSession: false } });
+	try {
+		const u = new URL(url);
+		if (u.protocol !== "https:") {
+			console.warn("Insecure Supabase URL blocked. Only https is allowed in production.");
+			if (import.meta.env.PROD) return null;
+		}
+	} catch {
+		return null;
+	}
+	if (!client) client = createClient(url, key, { auth: { persistSession: false }, global: { headers: { "X-Client-Info": "todo-app" } } });
 	return client;
 }
 

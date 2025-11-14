@@ -257,6 +257,7 @@ export default function AppLayout() {
 	const ringRadius = 14;
 	const ringCircumference = 2 * Math.PI * ringRadius;
 	const ringOffset = ringCircumference * (1 - Math.min(1, Math.max(0, completionRate / 100)));
+	const SHOW_COMPLETION = false;
 
 	return (
 		<div className="h-full flex flex-col md:flex-row">
@@ -296,7 +297,7 @@ export default function AppLayout() {
 									{periodLabel}
 								</div>
 								<div className="text-secondary text-sm sm:text-base flex items-center gap-2">
-									<span className="inline-flex items-center gap-2">
+									<span className="inline-flex items-center gap-2 hidden">
 										<span className="relative inline-grid place-items-center h-7 w-7">
 											<svg viewBox="0 0 40 40" className="absolute inset-0 h-7 w-7">
 												<circle

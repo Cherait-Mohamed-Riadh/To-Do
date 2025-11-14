@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview --port 5173"
+    "preview": "vite preview --port 5173",
+    "audit": "npm audit --omit=dev --audit-level=moderate"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.80.0",

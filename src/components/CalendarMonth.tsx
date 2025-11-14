@@ -35,10 +35,10 @@ export default function CalendarMonth({ monthDate, onChangeMonth, selectedDate, 
 					<button className="btn bg-sand-100 text-ink-700 hover:bg-sand-200" onClick={nextMonth} aria-label="Next month">→</button>
 				</div>
 			</div>
-			<div className="-mx-2 sm:mx-0 overflow-x-auto">
-				<div className="min-w-[560px] sm:min-w-0 px-2">
-					<div className="grid grid-cols-7 text-xs text-ink-500 dark:text-ink-300 mb-1">
-						{["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(d => <div key={d} className="px-2 py-1">{d}</div>)}
+			<div className="px-1 sm:px-0">
+				<div>
+					<div className="grid grid-cols-7 text-[11px] sm:text-xs text-ink-500 dark:text-ink-300 mb-1">
+						{["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(d => <div key={d} className="px-1.5 py-1 text-center sm:text-left">{d}</div>)}
 					</div>
 					<div className="grid grid-cols-7 gap-1">
 						{days.map(d => {
@@ -49,7 +49,7 @@ export default function CalendarMonth({ monthDate, onChangeMonth, selectedDate, 
 									key={d.toISOString()}
 									onClick={() => onSelectDate(d)}
 									className={clsx(
-										"rounded-lg px-2 py-2 text-left border",
+										"rounded-lg px-1.5 py-2 sm:px-2 text-left border min-h-[56px] sm:min-h-[80px] lg:min-h-[96px] flex flex-col gap-1",
 										isCurrentMonth
 											? "bg-white border-sand-200 dark:bg-ink-700 dark:border-ink-600"
 											: "bg-sand-100 border-sand-200 text-ink-400 dark:bg-ink-800 dark:border-ink-700 dark:text-ink-300",
@@ -57,8 +57,8 @@ export default function CalendarMonth({ monthDate, onChangeMonth, selectedDate, 
 										isEqual(d, selectedDate) && "outline outline-2 outline-ink-900 dark:outline-ink-50"
 									)}
 								>
-									<div className="text-sm font-medium text-ink-900 dark:text-ink-50">{format(d, "d")}</div>
-									{taskCount > 0 && <div className="text-[10px] text-ink-500 dark:text-ink-300">{taskCount} task{taskCount > 1 ? "s" : ""}</div>}
+									<div className="text-sm sm:text-base font-medium text-ink-900 dark:text-ink-50 leading-none">{format(d, "d")}</div>
+									{taskCount > 0 && <div className="text-[10px] sm:text-[11px] text-ink-500 dark:text-ink-300 leading-none">{taskCount} task{taskCount > 1 ? "s" : ""}</div>}
 								</button>
 							);
 						})}

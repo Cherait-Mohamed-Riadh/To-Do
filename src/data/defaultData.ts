@@ -107,35 +107,8 @@ export const defaultWorkspaceMember: WorkspaceMember = {
 
 export const defaultPages: Page[] = orderedPages;
 
-export const defaultTasks: Task[] = [
-	buildTask("Design session", todayPage.id, {
-		status: "in-progress",
-		category: "design",
-		priority: "high",
-		dueTime: "10:30"
-	}),
-	buildTask("Write weekly report", todayPage.id, {
-		category: "dev",
-		priority: "medium",
-		dueTime: "13:00"
-	}),
-	buildTask("Review onboarding flow", tasksPage.id, {
-		category: "design",
-		dueDateOffset: 1,
-		priority: "medium"
-	}),
-	buildTask("Sprint planning", calendarPage.id, {
-		category: "meet",
-		dueDateOffset: 3,
-		priority: "high",
-		dueTime: "09:00"
-	}),
-	buildTask("Content ideas backlog", tasksPage.id, {
-		category: "dev",
-		dueDateOffset: 5,
-		priority: "low"
-	})
-];
+// Start with no default tasks so new users see an empty list and can add their own.
+export const defaultTasks: Task[] = [];
 
 export const defaultNotes: Note[] = [
 	{
@@ -146,13 +119,3 @@ export const defaultNotes: Note[] = [
 		content: "Keep capturing quick learnings and wins here."
 	}
 ];
-
-
-
-
-
-
-
-
-
-

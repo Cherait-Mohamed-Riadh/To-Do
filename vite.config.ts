@@ -29,7 +29,24 @@ export default defineConfig({
 		})
 	],
 	server: {
-		port: 5173
+		port: 5173,
+		headers: {
+			"Content-Security-Policy": "default-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; manifest-src 'self'; script-src 'self' 'unsafe-inline' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' ws: wss: https://*.supabase.co https://*.supabase.in wss://*.supabase.co wss://*.supabase.in; worker-src 'self' blob:; media-src 'self' blob:;",
+			"Referrer-Policy": "strict-origin-when-cross-origin",
+			"X-Content-Type-Options": "nosniff",
+			"X-Frame-Options": "DENY",
+			"Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()"
+		}
+	},
+	preview: {
+		headers: {
+			"Content-Security-Policy": "default-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; manifest-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' wss: https:; worker-src 'self' blob:; media-src 'self' blob:;",
+			"Referrer-Policy": "strict-origin-when-cross-origin",
+			"X-Content-Type-Options": "nosniff",
+			"X-Frame-Options": "DENY",
+			"Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()",
+			"Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload"
+		}
 	}
 });
 

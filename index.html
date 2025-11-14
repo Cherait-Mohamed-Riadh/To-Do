@@ -1,8 +1,11 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Security headers via meta (best effort for static hosting). For stronger protection, set equivalent HTTP headers on the server. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; manifest-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' ws: wss: https://*.supabase.co https://*.supabase.in wss://*.supabase.co wss://*.supabase.in; worker-src 'self' blob:; media-src 'self' blob:;" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
     <meta name="description" content="Plan your day, track tasks, notes, and expenses, and visualize performance — all in one fast, modern dashboard." />
     <meta name="theme-color" content="#fbf7f3" media="(prefers-color-scheme: light)" />

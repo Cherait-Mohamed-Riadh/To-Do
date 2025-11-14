@@ -85,7 +85,7 @@ function Sidebar({
 										workspace.id === activeWorkspaceId ? "bg-white/15" : "hover:bg-white/10"
 									}`}
 								>
-									<span className="text-base leading-none">{workspace.icon ?? "📁"}</span>
+									<span className="icon leading-none">{workspace.icon ?? "📁"}</span>
 									<span className="text-sm font-medium truncate">{workspace.name}</span>
 								</button>
 							</li>
@@ -115,7 +115,7 @@ function Sidebar({
 										}`
 									}
 								>
-									<span className="text-base leading-none">{page.icon ?? "•"}</span>
+									<span className="icon-sm leading-none">{page.icon ?? "•"}</span>
 									<span className="truncate">{page.title}</span>
 								</NavLink>
 							</li>
@@ -234,7 +234,7 @@ function Sidebar({
 					<div className="flex-1 min-w-0">
 						<div className="flex items-center justify-between gap-2">
 							<div className="truncate text-white/90 font-medium">{profile.name || "Your name"}</div>
-							<div className="flex items-center gap-1 text-base leading-none">
+							<div className="flex items-center gap-1 icon-sm leading-none">
 								{doneThisWeek >= 5 && <span title="Weekly achiever">🏆</span>}
 								{hasHighPriority && <span title="High priority focus">⚡</span>}
 								{hasInProgress && <span title="Keep it going">💪</span>}
