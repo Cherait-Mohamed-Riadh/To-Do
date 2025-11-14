@@ -12,10 +12,10 @@ type Props = {
 const statusOrder: TaskStatus[] = ["todo", "in-progress", "done"];
 const priorityOrder: TaskPriority[] = ["high", "medium", "low"];
 
-function cycle<T>(arr: T[], current: T): T {
+function cycle<T>(arr: readonly T[], current: T): T {
   const idx = arr.indexOf(current);
-  const next = (idx + 1) % arr.length;
-  return arr[next];
+  const next = (idx === -1 ? 0 : (idx + 1) % arr.length);
+  return arr[next]!;
 }
 
 function StatusPill({ value, onChange }: { value: TaskStatus; onChange: (v: TaskStatus) => void }) {
