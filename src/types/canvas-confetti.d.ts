@@ -1,0 +1,11 @@
+declare module "canvas-confetti";
+
+
+
+
+
+
+
+
+
+
