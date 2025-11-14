@@ -107,17 +107,8 @@ export default function Notes({ notes, workspaceId, pageId, onAdd, onRemove }: P
 			</div>
 
 			{/* Toolbar */}
-			<div className="flex flex-wrap gap-2 mb-2">
-				<button className="btn-outline" title="# H1" onClick={() => insert("# ")}>H1</button>
-				<button className="btn-outline" title="## H2" onClick={() => insert("## ")}>H2</button>
-				<button className="btn-outline" title="Bold (Ctrl+B)" onClick={() => insert("**", "**")}><b>B</b></button>
-				<button className="btn-outline" title="Italic (Ctrl+I)" onClick={() => insert("*", "*")}><i>I</i></button>
-				<button className="btn-outline" title="Inline code" onClick={() => insert("`", "`")}>Code</button>
-				<button className="btn-outline" title="Bullet" onClick={() => insert("- ")}>•</button>
-				<button className="btn-outline" title="Todo" onClick={() => insert("- [ ] ")}>[ ]</button>
-				<button className="btn-outline" title="Link" onClick={() => insert("[text](https://)")}>Link</button>
-				<button className="btn-outline" title="Timestamp" onClick={() => insert(new Date().toLocaleString()+" ")}>Time</button>
-				<div className="ml-auto flex gap-1">
+			<div className="flex justify-end mb-2">
+				<div className="flex gap-1">
 					<button
 						className={`btn ${mode === "edit" ? "btn-primary" : "btn-outline"}`}
 						onClick={() => setMode("edit")}

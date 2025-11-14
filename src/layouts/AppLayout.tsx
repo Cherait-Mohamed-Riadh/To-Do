@@ -259,6 +259,44 @@ export default function AppLayout() {
 	const ringOffset = ringCircumference * (1 - Math.min(1, Math.max(0, completionRate / 100)));
 	const SHOW_COMPLETION = false;
 
+	// Local component: Theme toggle with icons for a more professional header
+	function ThemeToggle() {
+		return (
+			<div className="inline-flex items-center gap-1 rounded-lg bg-white/70 dark:bg-ink-800/60 border border-sand-200 dark:border-ink-700 px-1 py-1 shadow-sm">
+				<button
+					className={`icon-btn ${theme === "system" ? "text-brand-600 bg-sand-100 dark:bg-ink-700" : "text-ink-500"}`}
+					onClick={() => setTheme("system")}
+					title="System theme"
+					aria-label="System theme"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+						<path d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5Zm2 0v4h12V5H6Zm12 8H6v6h12v-6Z" />
+					</svg>
+				</button>
+				<button
+					className={`icon-btn ${theme === "light" ? "text-brand-600 bg-sand-100 dark:bg-ink-700" : "text-ink-500"}`}
+					onClick={() => setTheme("light")}
+					title="Light theme"
+					aria-label="Light theme"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+						<path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0 4a1 1 0 0 1-1-1v-1a1 1 0 1 1 2 0v1a1 1 0 0 1-1 1Zm0-20a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1Zm10 9a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1ZM4 12a1 1 0 0 1-1 1H2a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1Zm14.95 6.364a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 1 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414ZM6.464 5.05a1 1 0 0 1 0 1.414l-.707.707A1 1 0 0 1 4.343 5.757l.707-.707a1 1 0 0 1 1.414 0Zm11.314-1.414a1 1 0 0 1 0 1.414l-.707.707A1 1 0 1 1 15.657 4.05l.707-.707a1 1 0 0 1 1.414 0ZM5.05 17.536a1 1 0 0 1 1.414 0l.707.707a1 1 0 1 1-1.414 1.414l-.707-.707a1 1 0 0 1 0-1.414Z"/>
+					</svg>
+				</button>
+				<button
+					className={`icon-btn ${theme === "dark" ? "text-brand-600 bg-sand-100 dark:bg-ink-700" : "text-ink-500"}`}
+					onClick={() => setTheme("dark")}
+					title="Dark theme"
+					aria-label="Dark theme"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+						<path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z" />
+					</svg>
+				</button>
+			</div>
+		);
+	}
+
 	return (
 		<div className="h-full flex flex-col md:flex-row">
 			<div className="hidden md:block">
@@ -340,72 +378,50 @@ export default function AppLayout() {
 							</div>
 						</div>
 						<div className="flex items-center gap-2 flex-wrap justify-end">
-							<input
-								ref={searchRef}
-								value={globalQuery}
-								onChange={e => setGlobalQuery(e.target.value)}
-								placeholder="Search tasks… (press / to focus)"
-								className="input hidden md:block md:w-64"
-								aria-label="Global search"
-							/>
-							<button
-								className="btn-outline"
-								onClick={goToToday}
-								title="Go to today (T)"
-							>
+							{/* Search box (desktop) */}
+							<div className="hidden md:flex items-center gap-2 rounded-xl bg-white/70 dark:bg-ink-800/60 border border-sand-200 dark:border-ink-700 p-1 shadow-sm">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-ink-400">
+									<circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
+									<path d="m20 20-3.5-3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+								</svg>
+								<input
+									ref={searchRef}
+									value={globalQuery}
+									onChange={e => setGlobalQuery(e.target.value)}
+									placeholder="Search tasks… (press /)"
+									className="bg-transparent outline-none placeholder:text-ink-400 text-sm w-64"
+									aria-label="Global search"
+								/>
+							</div>
+
+							<button className="btn-outline" onClick={goToToday} title="Go to today (T)">
 								<span>Today</span>
 								<span className="hidden md:inline kbd">T</span>
 							</button>
+
+							<button className="icon-btn btn-ghost" onClick={() => setIsPaletteOpen(true)} title="Command palette (Ctrl/⌘K)" aria-label="Command palette">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+									<path d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5Zm2 0h12v4H6V5Zm0 6h12v8H6v-8Z" />
+								</svg>
+								<span className="hidden md:inline kbd ml-1">Ctrl/⌘K</span>
+							</button>
+
+							<button className="icon-btn btn-ghost" onClick={shareSummary} title="Share summary (S)" aria-label="Share summary">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+									<path d="M15 8a3 3 0 1 0-2.83-4H12a3 3 0 0 0 3 3Zm-6 8a3 3 0 1 0 2.83 4H9a3 3 0 0 0-3-3Zm10.5-1.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM7.06 13.56l8.88-4.44-.88-1.78-8.88 4.44.88 1.78Zm.88 3.78 8.88-4.44-.88-1.78-8.88 4.44.88 1.78Z"/>
+								</svg>
+								<span className="hidden md:inline kbd ml-1">S</span>
+							</button>
+
 							{cloudConfigured() && (
-								<>
-									<button
-										className="btn bg-sand-100 text-ink-700 hover:bg-sand-200 dark:bg-ink-700 dark:text-ink-50 dark:hover:bg-ink-600"
-										onClick={async () => {
-											const res = await syncUpTasks(tasks);
-											alert(res.ok ? "Synced to cloud." : `Sync failed: ${res.error}`);
-										}}
-									>
-										Sync up
-									</button>
-									<button
-										className="btn bg-sand-100 text-ink-700 hover:bg-sand-200 dark:bg-ink-700 dark:text-ink-50 dark:hover:bg-ink-600"
-										onClick={async () => {
-											const res = await fetchTasksFromCloud();
-											if (res.ok && Array.isArray(res.tasks)) {
-												if (
-													window.confirm(
-														`Replace your local tasks with ${res.tasks.length} from cloud?`
-													)
-												) {
-													const normalized = (res.tasks as Task[]).map(task => ({
-														...task,
-														workspaceId: task.workspaceId ?? activeWorkspaceId,
-														pageId: task.pageId ?? activePageId
-													}));
-													replaceTasks(normalized);
-													alert("Replaced with cloud tasks.");
-												}
-											} else {
-												alert(`Fetch failed: ${res.error}`);
-											}
-										}}
-									>
-										Sync down
-									</button>
-								</>
+								<div className="hidden sm:flex items-center gap-2">
+									<button className="btn bg-sand-100 text-ink-700 hover:bg-sand-200 dark:bg-ink-700 dark:text-ink-50 dark:hover:bg-ink-600" onClick={async () => { const res = await syncUpTasks(tasks); alert(res.ok ? "Synced to cloud." : `Sync failed: ${res.error}`); }}>Up</button>
+									<button className="btn bg-sand-100 text-ink-700 hover:bg-sand-200 dark:bg-ink-700 dark:text-ink-50 dark:hover:bg-ink-600" onClick={async () => { const res = await fetchTasksFromCloud(); if (res.ok && Array.isArray(res.tasks)) { if (window.confirm(`Replace your local tasks with ${res.tasks.length} from cloud?`)) { const normalized = (res.tasks as Task[]).map(task => ({ ...task, workspaceId: task.workspaceId ?? activeWorkspaceId, pageId: task.pageId ?? activePageId })); replaceTasks(normalized); alert("Replaced with cloud tasks."); } } else { alert(`Fetch failed: ${res.error}`); } }}>Down</button>
+								</div>
 							)}
+
 							<div className="relative">
-								<select
-									aria-label="Theme"
-									className="input md:w-[140px]"
-									value={theme}
-									onChange={e => setTheme(e.target.value as any)}
-									title="Theme"
-								>
-									<option value="system">System</option>
-									<option value="light">Light</option>
-									<option value="dark">Dark</option>
-								</select>
+								<ThemeToggle />
 							</div>
 						</div>
 					</header>
