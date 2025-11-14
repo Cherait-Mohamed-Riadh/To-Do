@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Security headers via meta (best effort for static hosting). For stronger protection, set equivalent HTTP headers on the server. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; manifest-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self'; worker-src 'self' blob:; media-src 'self' blob:;" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="description" content="Plan your day, track tasks, notes, and expenses, and visualize performance — all in one fast, modern dashboard." />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://yourdomain.example/" />
+    <meta name="theme-color" content="#fbf7f3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)" />
+    <meta name="msapplication-TileColor" content="#fbf7f3" />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Todos • Planner & Performance Dashboard" />
+    <meta property="og:description" content="Plan your day, track tasks, notes, and expenses, and visualize performance — all in one fast, modern dashboard." />
+    <meta property="og:url" content="https://yourdomain.example/" />
+    <meta property="og:image" content="/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Fonts & icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <title>Todos • Planner & Performance Dashboard</title>
+  </head>
+  <body>
+    <div id="root" role="application" aria-label="Todos application"></div>
+
+    <noscript>
+      <div style="padding:1rem;background:#fff7c0;color:#000;border-radius:6px;margin:1rem;">
+        <strong>JavaScript is required</strong> — This app needs JavaScript enabled to run. Please enable JavaScript in your browser.
+      </div>
+    </noscript>
+
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
+
+
